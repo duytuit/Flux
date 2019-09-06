@@ -1,0 +1,41 @@
+<tr *ngFor="let node of nodes;let i = index" style="display: inline-block;width: 100%;">
+    <div class="row" style="width: 100%">
+      <td class="col-sm-1" style="font-weight:bold;"></td>
+      <td class="col-sm-7" id="treehover" style="text-align: left" (click)=nodeClicked1(node)>{{node.Tenmenu}}</td>
+      <td class="col-sm-1">
+        <a class="btn"(click)="modalXem(node)" *ngIf="!node.quyenXem">
+          <i class="far fa-square fa-2x"></i>
+        </a>
+        <a class="btn"(click)="modalXem(node)" *ngIf="node.quyenXem">
+          <i class="far fa-check-square fa-2x"></i>
+        </a>
+      </td>
+      <td class="col-sm-1">
+          <a class="btn" (click)="modalThem(node)" *ngIf="!node.quyenThem">
+            <i class="far fa-square fa-2x"></i>
+          </a>
+          <a class="btn" (click)="modalThem(node)"  *ngIf="node.quyenThem">
+            <i class="far fa-check-square fa-2x"></i>
+          </a>
+        </td>
+        <td class="col-sm-1">
+            <a class="btn" (click)="modalSua(node)" *ngIf="!node.quyenCapNhap">
+              <i class="far fa-square fa-2x"></i>
+            </a>
+            <a class="btn" (click)="modalSua(node)"  *ngIf="node.quyenCapNhap">
+              <i class="far fa-check-square fa-2x"></i>
+            </a>
+          </td>
+          <td class="col-sm-1">
+              <a class="btn" (click)="modalXoa(node)" *ngIf="!node.quyenXoa">
+                <i class="far fa-square fa-2x"></i>
+              </a>
+              <a class="btn" (click)="modalXoa(node)"  *ngIf="node.quyenXoa">
+                <i class="far fa-check-square fa-2x"></i>
+              </a>
+            </td>
+    </div>
+    <app-tree-phanquyen *ngIf="node.isExpanded" [nodes]="node.ListPhanquyen" (emitNodeClickedXem)="modalXem($event)"(emitNodeClickedThem)="modalThem($event)"(emitNodeClickedSua)="modalSua($event)" (emitNodeClickedXoa)="modalXoa($event)">
+    </app-tree-phanquyen>
+  </tr>
+  

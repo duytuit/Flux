@@ -1,0 +1,30 @@
+<nav class="main-menu">
+    <div class="home1">
+        <div class="home" (click)="LogOut()">
+            <i class="fas fa-home"></i>
+        </div>
+        <span class="nav-text" (click)="LogOut()">
+            <a><img width="180" height="40" src="assets/meiko.png"></a>
+        </span>
+    </div>
+    <ul>
+        <li class="has-subnav" *ngFor="let item of Phanquyen">
+            <a routerLink="/{{item.Duongdan}}">
+                <i class="fa fa-list fa-2x"></i>
+                <span class="nav-text">
+                  {{item.Tenmenu}}
+                </span>
+            </a>
+        </li>
+        <ul class="logout">
+            <li>
+                <a (click)="LogOut()">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </ul>
+</nav>

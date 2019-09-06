@@ -1,0 +1,43 @@
+<!-- <ul style="list-style-type: none; max-width: 200px;">
+    <li *ngFor="let node of nodes">
+        <div class="row" >
+            <td class="col-sm-1" style="font-weight:bold;">
+                <a *ngIf="node.ListMenu?.length">+</a>
+                <a style="margin-left: 10px" *ngIf="!node.ListMenu?.length">-</a>
+            </td>
+            <td class="col-sm-9" style="text-align: left" (click)="node.isExpanded=!node.isExpanded">
+
+               {{node.Tenmenu}}
+             </td>
+            <td class="col-sm-1">Icon</td>
+            <td class="col-sm-1">
+              <a class="btn" (click)="modalopen(node)">
+                <i class="fa fa-pencil-square-o"></i>
+              </a>
+              <a class="btn text-danger" style="margin-left: 15px;" (click)="openDelete(node)">
+                <i class="far fa-trash-alt"></i>
+              </a>
+            </td>
+           </div>
+           <app-tree-view *ngIf="node.isExpanded" [nodes]="node.ListMenu" (emitNodeClicked)="nodeClicked($event)">
+             </app-tree-view> 
+    </li>
+  </ul> -->
+
+<tr *ngFor="let node of nodes;let i = index" style="display: inline-block;width: 100%;">
+  <div class="row" style="width: 100%">
+    <td class="col-sm-1" style="font-weight:bold;"></td>
+    <td class="col-sm-9" id="treehover" style="text-align: left" (click)=nodeClicked1(node)>{{node.Tenmenu}}</td>
+    <td class="col-sm-1">Icon</td>
+    <td class="col-sm-1">
+      <a class="btn" (click)="modalEdit1(node)">
+        <i class="fa fa-pencil-square-o" ></i>
+      </a>
+      <a class="btn text-danger" style="margin-left: 15px;" (click)="modalDelete1(node)">
+        <i class="far fa-trash-alt"></i>
+      </a>
+    </td>
+  </div>
+  <app-tree-view *ngIf="node.isExpanded" [nodes]="node.ListMenu" (emitNodeClickedEdit)="nodeClickedEdit($event)" (emitNodeClickedDelete)="nodeClickedDelete($event)">
+  </app-tree-view>
+</tr>

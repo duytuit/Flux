@@ -1,0 +1,62 @@
+<div class="rightcontent">
+  <h2>Phân Quyền</h2>
+</div>
+
+<div class="content-header">
+  <div class="col-md-6">
+    <ul class="ulbutton" (click)="lammoi()">
+      <a class="abutton" title="làm mới" role="button">
+        <i class="fas fa-retweet"></i>
+      </a>
+    </ul>
+  </div>
+  <div class="col-md-6">
+   
+  </div>
+</div>
+<div class="content-center">
+  <div style="float: left; width:29.8%;margin-right:2px;">
+      <table class="table table-sm table-fixed table-hover">
+          <thead style="background-color: #dbdbdb80;">
+              <tr class="row" style="  border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+                <th class="col-sm-2">TT</th>
+                <th class="col-sm-10">Nhóm Ký</th>
+              </tr>
+            </thead>
+          <tbody>
+            <tr *ngFor="let item of getnhomky;let i=index"  [ngStyle]="{'background-color' : getColor(i)}" class="row">
+                <td class="col-sm-2" style="font-weight:bold;padding: 7px;">{{item.Thutu}}</td>
+                <td class="col-sm-10" style="text-align: center;padding: 7px;" (click)="GetNhom(item,i)">{{item.Tennhom}}</td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  <div style="float: right; width:70%;">
+      <table class="table table-sm table-fixed">
+          <thead style="background-color: #dbdbdb80;">
+            <tr class="row" style=" border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+              <th class="col-sm-1"></th>
+              <th class="col-sm-7">Tên Menu</th>
+              <th class="col-sm-1">Hiển thị</th>
+              <th class="col-sm-1">Thêm</th>
+              <th class="col-sm-1">Sửa</th>
+              <th class="col-sm-1">Xóa</th>
+            </tr>
+          </thead>
+          <tbody>
+              <app-tree-phanquyen  [nodes]="getphanquyenTree" (emitNodeClickedXem)="modalXem($event)"(emitNodeClickedThem)="modalThem($event)"(emitNodeClickedSua)="modalSua($event)" (emitNodeClickedXoa)="modalXoa($event)">
+                </app-tree-phanquyen> 
+          </tbody>
+        </table>
+  </div>
+</div>
+<div class="fixed-bottom">
+  <!-- <div style="float: left;">
+      <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+      <button class="btn btn-secondary" disabled>Tổng: {{countds}}</button>
+  </div>
+ <div style="float: right;">
+    <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+    <button class="btn btn-secondary" disabled>Tổng: {{count}}</button>
+ </div> -->
+</div>

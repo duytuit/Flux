@@ -1,0 +1,208 @@
+<div class="rightcontent">
+  <h2>Tìm Kiếm Danh Sách</h2>
+</div>
+
+<div class="content-header">
+  <div class="col-md-10">
+    <td style="width:80px;">Từ Ngày :</td>
+    <td><input type="date" name="dateofbirth" id="dateofbirth" #fromdate></td>
+    <td style="width:80px;">Đến Ngày :</td>
+    <td><input type="date" name="dateofbirth" id="dateofbirth" #todate></td>
+    <td>
+      <select style="background-color:#dbdbdb80;height:33px;border-radius:5px" (change)="onSeach($event.target.value)">
+      <option value="null">--Trạng Thái--</option>
+      <option value="1">Đã hoàn thành</option>
+      <option value="0">Chưa hoàn thành</option>
+     </select>
+  </td>
+    <td><button type="button" class="btn btn-outline-primary" style="margin-left: 10px;"
+        (click)="GetThongKeBydate(fromdate.value,todate.value)">Tìm</button></td>
+    <td><button type="button" class="btn btn-outline-info" style="margin-left: 10px;" (click)="refresh()">Làm
+        Mới</button></td>
+    <td><button type="button" class="btn btn-outline-warning" style="margin-left: 10px;" (click)="exportAsXLSX()">Xuất
+        tệp</button></td>
+  </div>
+  <div class="col-md-2">
+
+  </div>
+</div>
+<div class="content-center" (mouseenter)="onMouseEnterClose()">
+    <div style="display: inline-table; width:15%;margin-right:2px;">
+        <table class="table table-sm table-fixed table-hover">
+            <thead >
+                <tr  style="height:77px;background-color:#dbdbdb80;">
+                  <th>
+                    <label for="mayc" class="inp">
+                      <input type="text" id="mayc" placeholder="&nbsp;" [(ngModel)]="listFilterYeuCau">
+                      <span class="label">Mã Yêu Cầu</span>
+                      <span class="border"></span>
+                    </label>
+                  </th>
+                </tr>
+              </thead>
+            <tbody>
+              <tr *ngFor="let item of FgetGroup | slice:pageIndexds*pageSizeds:(pageIndexds+1)*pageSizeds;let i=index" [ngStyle]="{'background-color' : getColor(i)}">
+                  <td class="row" style="font-weight:bold" (click)="SelectGroupID(item,i)">{{item.Groupid}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div style="display: inline-table;width:84.8%;float:right;">
+  <table class="table table-sm table-hover table-bordered test">
+    <thead>
+      <div class="row" style="background-color:#dbdbdb80;">
+        <div class="STT">STT</div>
+        <div class="content">
+          <div class="Thongtin"> Thông tin của bộ phận chế tạo </div>
+          <div>
+            <div class="columnleft">
+              <label for="mahang" class="inp">
+                <input type="text" id="mahang" placeholder="&nbsp;" [(ngModel)]="listFilterMahang">
+                <span class="label">Mã hàng</span>
+                <span class="border"></span>
+              </label>
+            </div>
+            <div class="columnleft">
+              <label for="malot" class="inp">
+                <input type="text" id="malot" placeholder="&nbsp;" [(ngModel)]="listFilterMalot">
+                <span class="label">Mã Lot</span>
+                <span class="border"></span>
+              </label>
+            </div>
+            <div class="columnleft">Độ dày lỗ mạ</div>
+            <div class="columnleft">Số lượng</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="Thongtin">Thông tin của QA/PQ</div>
+          <div class="xacnhan">
+            <div class="kq">Kết quả xác nhận mặt cắt</div>
+            <div class="columnright">Độ dày trước</div>
+            <div class="columnright">Độ dày sau</div>
+          </div>
+          <div class="xn">
+            <div class="cleft">
+              <label for="xnql" class="inp">
+                <input type="text" id="xnql" placeholder="&nbsp;" [(ngModel)]="listFilterXNQL">
+                <span class="label">Xác Nhận QL</span>
+                <span class="border"></span>
+              </label>
+            </div>
+            <div class="cleft">
+              <label for="xnpq" class="inp">
+                <input type="text" id="xnpq" placeholder="&nbsp;" [(ngModel)]="listFilterXNPQ">
+                <span class="label">Xác Nhận PQ</span>
+                <span class="border"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of Fgetthongke | slice:pageIndex*pageSize:(pageIndex+1)*pageSize;let i = index;">
+        <div class="row" (mouseenter)="onMouseEnterClose()">
+          <div class="STTrow">{{i+1}}</div>
+          <div class="contentrow">
+            <div class="Thongtinrow"></div>
+            <div>
+              <div class="columnleftrow" style="text-align:left;" (mouseenter)="onMouseEnter(item)">
+                <span>{{item.Mahang}}</span>
+              </div>
+              <div class="columnleftrow" style="text-align:left;">
+                <span>{{item.Malot}}</span>
+              </div>
+              <div class="columnleftrow">
+                <span>{{item.Doday}}</span>
+              </div>
+              <div class="columnleftrow">
+                <span>{{item.Soluong}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="contentrow">
+            <div class="Thongtinrow"></div>
+            <div>
+              <div class="columnleftrow">{{item.Dodaytruoc}}</div>
+              <div class="columnleftrow">{{item.Dodaysau}}</div>
+              <div class="columnrightrow">{{item.Xacnhanql}}</div>
+              <div class="columnrightrow">{{item.Xacnhanpq}}</div>
+            </div>
+          </div>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<div class="fixed-bottom">
+    <div style="float: left;">
+        <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+        <button class="btn btn-secondary" style="height: 38px" disabled>Tổng: {{countds}}</button>
+    </div>
+  <div style="float: right;">
+    <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+    <button class="btn btn-secondary" disabled>Tổng: {{count}}</button>
+  </div>
+</div>
+<app-dialog-detail [(visible)]="!showDialog">
+  <div style="text-align:center;font-weight:bold">Thông tin chi tiết</div>
+  <div class="form" *ngIf="viewthongke">
+    <tr>
+      <td style="width: 50%;">Thời gian tạo:</td>
+      <td style="color: blue;width: 50%;">{{viewthongke.Thoigiantao}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Thời gian hoàn thành:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Thoigianhoanthanh}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Mã hàng:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Mahang}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Mã Lot:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Malot}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Độ dày:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Doday}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Số lượng:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Soluong}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Độ dày trước:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Dodaytruoc}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Độ dày sau:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Dodaysau}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Xác nhận QL:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Xacnhanql}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Xác nhận PQ:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Xacnhanpq}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Ghi chú:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Ghichu}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Trạng thái:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Trangthai}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Mã yêu cầu:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Groupid}}</td>
+    </tr>
+    <tr>
+      <td style="width: 50%;">Nhóm ký:</td>
+      <td style="width: 50%;color: blue">{{viewthongke.Nhomky}}</td>
+    </tr>
+  </div>
+</app-dialog-detail>

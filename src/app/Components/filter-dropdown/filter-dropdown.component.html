@@ -1,0 +1,20 @@
+
+    <input 
+    type="text" 
+    class="form-control form-control-sm"
+    [(ngModel)]="searchText" 
+    (keyup)="onSearch($event)" 
+    (keydown)="onSearch($event)" 
+    (focus)="showList()"
+    (blur)="hideList()"/>
+   
+  <ul class="filter-list" 
+    *ngIf="isVisible && filterSet.length > 0" 
+    (mouseover)="cursorOverSet()">
+    <li 
+      *ngFor="let item of filterSet; index as i;" 
+      (click)="setValue(item)">
+      {{ item }}
+    </li>  
+  </ul>
+ 

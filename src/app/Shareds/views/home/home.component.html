@@ -1,0 +1,82 @@
+<div class="main-nav" *ngIf="!main">
+    <div class="left">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div><img width="180" height="40" src="assets/meiko.png"></div>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a >Flux</a>
+                <a >QL</a>
+                <a >PQ</a>
+                <a >Nhóm Ký</a>
+                <a >Thông Tin Ký</a>
+            </div>
+        </nav>
+    </div>
+    <div>
+        <app-sidebar [Phanquyen]="getall" (LogOutClicked)="LogOut()"></app-sidebar>
+    </div>
+    <div class="right">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<div class="content-wrapper" *ngIf="main">
+    <div class="navbar-top">
+        <div class="rightcontent">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="ul-left">
+                        <li class="li-left" >
+                            <a (click)="CallMainClose()"><img width="120" height="25" src="assets/meiko.png"></a>
+                        </li>
+                        <li >
+                            <a (click)="CallMainClose()">Meiko App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 right-user">
+                    <ul class="ul-right" (click)="opendropdown()">
+                        <li class="li-right">
+                            <a class="a-right"><img width="30" height="30" src="assets/user-icon.png"></a>
+                        </li>
+                    </ul>
+                    <div class="divdropdown" *ngIf="showDropDown">
+                        <a class="a-dropdown" (click)="showDialog = !showDialog;showDropDown=!showDropDown">Đăng
+                            nhập</a>
+                        <a class="a-dropdown" (click)="CallMainClose();showDropDown=!showDropDown">Đăng Xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content" (click)="closedropdown()">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4" *ngFor="let item of MenuCha">
+                        <div class="mblock" (click)="CallMainOpen()">
+                            <div class="cblock">
+                                {{item.Tenmenu}}
+                                <i class="fas fa-home fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-dialog [(visible)]="showDialog">
+    <div style="text-align:center;" >
+        <img width="300" height="70" src="assets/meiko.png">
+    </div>
+    <div class="form">
+        <form class="login-form" [formGroup]="formdata" (ngSubmit)="onClickSubmit(formdata.value)">
+            <input type="text" autocomplete="off" formControlName="uname" placeholder="tài khoản" />
+            <input type="password" autocomplete="off" formControlName="passwd" placeholder="mật khẩu" />
+            <button type="submit" [disabled]="!formdata.valid">Đăng Nhập</button>
+        </form>
+    </div>
+</app-dialog>

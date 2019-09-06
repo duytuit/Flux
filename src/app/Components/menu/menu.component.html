@@ -1,0 +1,220 @@
+<div class="rightcontent">
+  <h2>Menu</h2>
+</div>
+<app-modal #modalRoot [modalTitle]="'Thêm mới'" [width]="800" [zIndex]="zIndex" [maximizable]="true">
+  <!-- <ng-container class="app-t-header">
+   
+  </ng-container> -->
+  <ng-container class="app-modal-body">
+    <form class="emp-form" [formGroup]="addmenu" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <input class="form-control form-control-sm" autocomplete="off" formControlName="Menuid" placeholder="Mã Menu">
+          </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input class="form-control form-control-sm" autocomplete="off" formControlName="Tenmenu" placeholder="Tên menu">
+        </div>
+        <div class="form-group col-md-6">
+          <select class="form-control form-control-sm" (change)="onEventDanhMuc($event.target.value)">
+            <option value="null">--Danh mục--</option>
+            <option *ngFor="let item of getdanhmuc" value="{{item.Danhmucid}}">{{item.Tendanhmuc}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <!-- <select class="form-control form-control-sm" (change)="onEventParentID($event.target.value)"> -->
+            <select size="1" onmousedown="if (this.options.length > 10){this.size = 10}" onchange="this.size = 0" onblur="this.size = 1" class="form-control form-control-sm" (change)="onEventParentID($event.target.value)" id='filterText'>
+            <label for="show">Show:</label>
+              <option value="null">--Tên menu--</option>
+              <option *ngFor="let item of getmenu" value="{{item.Menuid}}-{{item.Capdo}}">{{item.Tenmenu}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+          <!-- <label class="btn btn-info btn-sm" style="float:right;margin: 0;width:40%;">
+              Upload
+              <input type="file" (change)="onFileChange($event)" style="display: none" />
+            </label> -->
+        <input class="form-control form-control-sm"  type="file" formControlName="Icon" placeholder="Icon">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" formControlName="Duongdan" placeholder="Đường dẫn">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" formControlName="Macode" placeholder="Mã code">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" formControlName="Thutu" placeholder="Thứ tự">
+      </div>
+       <div class="form-group">
+          <select class="form-control form-control-sm" (change)="onEventTrangThai($event.target.value)">
+            <option value="null" selected>--Trạng thái--</option>
+            <option value="true">Kích hoạt</option>
+            <option value="false">Khóa</option>
+          </select>
+        </div>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <button type="submit" class="btn btn-block btn-info btn-sm">
+            <i class="fa fa-floppy-o"></i> Tạo</button>
+        </div>
+        <div class="form-group col-md-4">
+          <button type="button" class="btn btn-block btn-secondary btn-sm" (click)="Reset()">
+            <i class="fa fa-repeat"></i> Làm mới</button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+      <input type="hidden" (click)="modalRoot.hide()" id="modalRootClose">
+  </ng-container>
+</app-modal>
+<div class="content-header">
+  <div class="col-md-6">
+    <ul class="ulbutton" (click)="modalRoot.show()">
+      <a class="abutton" title="Thêm" role="button">
+        <i class="fas fa-plus"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton" (click)="lammoi()">
+      <a class="abutton" title="làm mới" role="button">
+        <i class="fas fa-retweet"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton">
+      <a class="abutton" title="xuất tệp" role="button">
+        <i class="fas fa-file-export"></i>
+      </a>
+    </ul>
+  </div>
+  <div class="col-md-6">
+   
+  </div>
+</div>
+<div class="content-center"(click)="closeDropDownDocument()" >
+    <table class="table table-sm table-fixed">
+        <thead style="background-color: #dbdbdb80;" >
+          <tr class="row" style=" border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+              <th class="col-sm-1" style="font-weight:bold;"></th>
+            <th class="col-sm-9" style=" text-align: left;">Tên Menu</th>
+            <th class="col-sm-1">Icon</th>
+            <th class="col-sm-1">Chức Năng</th>
+          </tr>
+        </thead>
+        <tbody >
+            <app-tree-view  [nodes]="getmenuTree" (emitNodeClickedEdit)="nodeClickedEdit($event)" (emitNodeClickedDelete)="nodeClickedDelete($event)">
+              </app-tree-view> 
+        </tbody>
+      </table>
+</div>
+<div class="fixed-bottom">
+  <!-- <div style="float: left;">
+      <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+      <button class="btn btn-secondary" disabled>Tổng: {{countds}}</button>
+  </div>
+ <div style="float: right;">
+    <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+    <button class="btn btn-secondary" disabled>Tổng: {{count}}</button>
+ </div> -->
+</div>
+<app-modal #modalEdit [modalTitle]="'Cập Nhập'" [width]="800" [zIndex]="zIndex" [maximizable]="true">
+  <!-- <ng-container class="app-t-header">
+        </ng-container> -->
+  <ng-container class="app-modal-body" >
+    <form class="emp-form" *ngIf="Menu" [formGroup]="addmenu" (ngSubmit)="onSubmitEdit()">
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" [(ngModel)]="Menu.Menuid"
+          formControlName="Menuid" placeholder="Mã Menu">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input class="form-control form-control-sm" autocomplete="off" [(ngModel)]="Menu.Tenmenu" 
+            formControlName="Tenmenu" placeholder="Tên menu">
+        </div>
+        <div class="form-group col-md-6">
+          <select class="form-control form-control-sm" [(ngModel)]="tesst" formControlName="Danhmucid" (change)="onEventDanhMucEdit($event.target.value)">
+            <option *ngFor="let item of getdanhmuc" value="{{item.Danhmucid}}">{{item.Tendanhmuc}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Menu cha" readonly="readonly" [(ngModel)]="ParentName" formControlName="Idcha"  (click)="openDropDown()"
+          class="form-control form-control-sm">
+        <div (click)="closeDropDown()">
+          <div *ngIf="showDropDown" class="search-drop-down">
+            <div (click)="selectValue(item)" class="search-results" *ngFor="let item of getmenu">
+              <a>
+                {{item.Tenmenu}}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <!-- <label class="btn btn-info btn-sm" style="float:right;margin: 0;width:40%;">
+                    Upload
+                    <input type="file" (change)="onFileChange($event)" style="display: none" />
+                  </label> -->
+        <input class="form-control form-control-sm" type="file" style="margin: 0" [(ngModel)]="Menu.Icon" formControlName="Icon"
+          placeholder="Icon">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" [(ngModel)]="Menu.Duongdan"
+          formControlName="Duongdan" placeholder="Đường dẫn">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" [(ngModel)]="Menu.Macode"
+          formControlName="Macode" placeholder="Mã code">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" [(ngModel)]="Menu.Thutu" formControlName="Thutu"
+          placeholder="Thứ tự">
+      </div>
+      <div class="form-group">
+        <select class="form-control form-control-sm"  formControlName="Tinhtrang" [(ngModel)]="trangthaiedit"
+          (change)="onEventTrangThaiEdit($event.target.value)">
+          <option value="true">Kích hoạt</option>
+          <option value="false">Khóa</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <button type="submit" class="btn btn-block btn-info btn-sm">
+            <i class="fa fa-floppy-o"></i> Tạo</button>
+        </div>
+        <div class="form-group col-md-4">
+          <button type="button" class="btn btn-block btn-secondary btn-sm">
+            <i class="fa fa-repeat"></i> Làm mới</button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <input type="hidden" (click)="modalEdit.hide()" id="modalEditHide">
+  </ng-container>
+</app-modal>
+
+
+<input type="hidden" (click)="modalEdit.show()" id="modalEdit">
+<input type="hidden" (click)="modalEdit.hide()" id="modalEditHide">
+<input type="hidden" (click)="modalDelete.show()" id="modalDelete">
+<input type="hidden" (click)="modalDelete.hide()" id="modalDeleteHide">
+
+
+<app-modal #modalDelete [modalTitle]="'Bạn có muốn xóa không !'" [width]="500" [zIndex]="zIndex">
+    <ng-container class="app-t-header">
+    </ng-container>
+    <ng-container class="app-modal-body">
+      <div class="form-row">
+        <div class="form-group col-md-6">Tên menu:{{GetTenmenu}}</div>
+        <div class="form-group col-md-6">Đường dẫn:{{GetDuongdan}}</div>
+      </div>
+    </ng-container>
+    <ng-container class="app-modal-footer">
+      <button type="button" (click)="onDeleteMenu()" style="width: 75px;" class="btn btn-info btn-sm">
+        <i class="far fa-save tu"></i>
+        Xóa</button>
+      <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalDelete.hide()">
+        <i class="far fa-times-circle"></i>
+        Thoát</button>
+    </ng-container>
+  </app-modal>

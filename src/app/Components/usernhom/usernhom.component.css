@@ -1,0 +1,113 @@
+.content-center{
+    width: 100%;
+    display: inline-block; 
+    height: 83vh;
+  }
+  .content-header{
+    background-color: #dbdbdb80;
+    border: 0.09rem solid rgb(221, 213, 213);
+    height: 48px;
+    margin-bottom: 5px;
+   }
+   .abutton:hover{
+    background-color:rgb(196, 192, 192);
+  }
+  .abutton{
+    color: #666;border:0.09rem solid rgb(221, 213, 213);border-radius: 3px;padding: 4px 12px 5px;
+  }
+  .ulbutton{
+    padding: 10px;
+    margin:0;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .rightcontent{
+    text-align:center;
+    background-color: #364f69;
+    color: #f7f7f8;
+    font-family:Arial, Helvetica, sans-serif;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    border:2px solid rgb(196, 192, 192);
+    margin-bottom: 5px;
+   }
+   .fa-plus,.fa-retweet,.fa-file-export,.fa-bullhorn,.fa-pencil-square-o,.fa-save,.fa-file-signature,.fa-flag,.fa-check-square,.fa-square{
+    color: #364f69;
+  }
+  .row{
+    margin: 0;
+    text-align: center;
+    }
+    .table thead th {
+      border:0;
+  }
+  .btn{
+    padding: 1px 1px;
+}
+.fixed-bottom{
+  padding-left:4%;
+}
+.inp {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+
+.inp .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #07f;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp input:hover {
+  background: rgba(34,50,84,0.03);
+}
+.inp input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-17px) scale(0.75);
+}
+.inp input:focus {
+  background: none;
+  outline: none;
+}
+.inp input:focus + span {
+  color: #07f;
+  transform: translateY(-17px) scale(0.75);
+}
+.inp input:focus + span + .border {
+  transform: scaleX(1);
+}

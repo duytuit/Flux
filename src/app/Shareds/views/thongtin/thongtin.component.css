@@ -1,0 +1,13 @@
+.rightcontent{
+    text-align:center;
+    background-color: #364f69;
+    color: #f7f7f8;
+    font-family:Arial, Helvetica, sans-serif;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    border:2px solid rgb(196, 192, 192);
+    margin-bottom: 5px;
+   }

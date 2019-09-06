@@ -1,0 +1,19 @@
+.filter-list{
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    background-color: #F6F6F6;
+    font-family: sans-serif;
+    opacity: 0.98;
+    padding: 0;
+    font-size: 12px;
+}
+li{
+    list-style:none;
+}
+li:hover{
+    background: #707070;
+    cursor: pointer;
+}

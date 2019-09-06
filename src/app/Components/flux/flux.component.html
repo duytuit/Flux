@@ -1,0 +1,266 @@
+<div class="rightcontent">
+  <h2>Danh sách các đối tượng cần tái xử lý Flux - Flux</h2>
+</div>
+<app-modal #modalRoot [modalTitle]="'Thêm mới'" [width]="800" [zIndex]="zIndex" [maximizable]="true">
+  <ng-container class="app-t-header">
+    <div>
+      <button class="btn btn-block btn-info btn-sm" (click)="addCreds()">
+        <i class="fas fa-plus-circle"></i>
+        Tạo</button></div>
+  </ng-container>
+  <ng-container class="app-modal-body">
+    <form [formGroup]="form">
+      <div formArrayName="credentials">
+        <div class="form-row" *ngFor="let creds of getArrayControls(); let i = index" [formGroupName]="i">
+          <div class="form-group col-md-2">
+            <input type="hidden" formControlName="Mahang">
+            <app-filter-dropdown [dataSet]="GetAllPartNo" [maxLen]="6" (typeahead)="getTypeahead($event,i)">
+            </app-filter-dropdown>
+          </div>
+          <div class="form-group col-md-2">
+            <input type="hidden" formControlName="Malot">
+            <app-filter-dropdown [dataSet]="GetAllLotNo" [maxLen]="6" (typeahead)="getTypeahead1($event,i)">
+            </app-filter-dropdown>
+          </div>
+          <div class="form-group col-md-2">
+            <input class="form-control form-control-sm" formControlName="Doday" placeholder="độ dày">
+          </div>
+          <div class="form-group col-md-2">
+            <input class="form-control form-control-sm" formControlName="Soluong" placeholder="số lượng">
+          </div>
+          <div class="form-group col-md-2">
+            <input class="form-control form-control-sm" formControlName="Ghichu" placeholder="ghi chú">
+          </div>
+          <span class="remove" (click)="removeGroup(i)">
+            <img width="24" height="24" src="assets/delete-icon.png">
+          </span>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" (click)="onSubmit()" class="btn btn-info btn-sm">
+      <i class="far fa-save tu"></i>
+      Lưu</button>
+    <button type="button" class="btn btn-info btn-sm" id="close" style="float: right;" (click)="modalRoot.hide()">
+      <i class="far fa-times-circle"></i>
+      Thoát</button>
+  </ng-container>
+</app-modal>
+
+<app-modal #modalDelete [modalTitle]="'Bạn có muốn xóa không !'" [width]="800" [zIndex]="zIndex">
+  <ng-container class="app-t-header">
+  </ng-container>
+  <ng-container class="app-modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-4">Mã hàng:{{mahang}}</div>
+      <div class="form-group col-md-3">Mã lot:{{malot}}</div>
+      <div class="form-group col-md-2">Độ dày:{{doday}}</div>
+      <div class="form-group col-md-2">Số lượng:{{soluong}}</div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" (click)="onDeleteFlux(idflux)" style="width: 75px;" class="btn btn-info btn-sm">
+      <i class="far fa-save tu"></i>
+      Xóa</button>
+    <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalDelete.hide()">
+      <i class="far fa-times-circle"></i>
+      Thoát</button>
+  </ng-container>
+</app-modal>
+
+<app-modal #modalnoidung [modalTitle]="'Nội dung !'" [width]="500" [zIndex]="zIndex">
+  <ng-container class="app-modal-body">
+    <div class="form-row">
+      <input type="text" class="form-control form-control-sm" [(ngModel)]="ghichunoidung"/>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" (click)="updatequytrinh(quytrinh)" style="width: 75px;" class="btn btn-info btn-sm">
+      <i class="far fa-save tu"></i>
+      Lưu</button>
+    <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalnoidung.hide()">
+      <i class="far fa-times-circle"></i>
+      Thoát</button>
+  </ng-container>
+</app-modal>
+
+<input type="hidden" (click)="modalnoidung.show()" id="modalNoidung">
+<input type="hidden" (click)="modalnoidung.hide()" id="modalNoidungHide">
+
+<div class="content-header">
+  <div class="col-md-6">
+    <ul class="ulbutton" (click)="modalRoot.show()">
+      <a class="abutton" title="Thêm" role="button">
+        <i class="fas fa-plus"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton" (click)="lammoi()">
+      <a class="abutton" title="làm mới" role="button">
+        <i class="fas fa-retweet"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton">
+        <a *ngIf="!daky" class="abutton" (click)="OpenUpdateQuytrinh()" title="chưa ký" role="button">
+            <i class="fas fa-flag" style="color:#adabab8a;"></i>
+        </a>
+        <a *ngIf="daky" class="abutton" title="đã ký" role="button">
+            <i class="fas fa-flag"></i>
+        </a>
+      </ul>
+  </div>
+  <div class="col-md-6">
+    <!-- <div class="col-sm-1" style="display:inline-table">
+        <input type="date" name="dateofbirth" id="dateofbirth" #fromdate>
+    </div>
+    <div class="col-sm-1" style="display:inline-table">
+        <select style="background-color:#dbdbdb80;height:33px;border-radius:5px" (change)="onSeach($event.target.value,fromdate.value)">
+            <option value="null">--Trạng Thái--</option>
+            <option value="1">Đã hoàn thành</option>
+            <option value="0">Chưa hoàn thành</option>
+         </select>
+      </div> -->
+  </div>
+</div>
+<div class="content-center">
+  <div class="content-left" style="float: left;width: 10%;border:1px solid #adabab8a;height:88vh;">
+    <table class="table table-sm table-hover">
+      <thead>
+            <div class="content-left-header">
+                <label for="danhsachflux" class="inp">
+                  <input type="text" id="danhsachflux" placeholder="&nbsp;" [(ngModel)]="listFilter" >
+                  <span class="label">Mã Yêu Cầu</span>
+                  <span class="border"></span>
+                </label>
+              </div>
+              <div style="width:30%;height: 80px;background-color:#dbdbdb80; border-bottom:1px solid #adabab8a;padding:50px 0 0;float: right;">
+                <select style="width:100%;background-color:#dbdbdb80;" [(ngModel)]="listFilterSelect" (change)="onSelect($event.target.value)">
+                  <option value="">All</option>
+                  <option value="true">Đã ký</option>
+                  <option value="false">Chưa ký</option>
+                </select>
+              </div>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Fgetquytrinh | slice:pageIndexds*pageSizeds:(pageIndexds+1)*pageSizeds ;let i = index" [ngStyle]="{'color' : getColor(i)}">
+            <div class="row" style="height: 39px;padding: 10px;" (click)="onGroup(item.Groupid)">
+              {{item.Groupid}}
+              <i *ngIf="item.Daky" class="fas fa-flag" style="margin-left: 5px;"></i>
+            </div>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <table class="table table-sm table-hover table-bordered test" style="float: right;width:89.8%;">
+      <thead>
+        <div class="row" style="background-color:#dbdbdb80;">
+          <div class="STT">STT</div>
+          <div class="content">
+            <div class="Thongtin"> Thông tin của bộ phận chế tạo </div>
+            <div>
+              <div class="columnleft">
+                <label for="mahang" class="inp">
+                  <input type="text" id="mahang" placeholder="&nbsp;" [(ngModel)]="listFilterMahang">
+                  <span class="label">Mã hàng</span>
+                  <span class="border"></span>
+                </label>
+              </div>
+              <div class="columnleft">
+                <label for="malot" class="inp">
+                  <input type="text" id="malot" placeholder="&nbsp;" [(ngModel)]="listFilterMalot">
+                  <span class="label">Mã Lot</span>
+                  <span class="border"></span>
+                </label>
+              </div>
+              <div class="columnleft">Độ dày lỗ mạ</div>
+              <div class="columnleft">Số lượng</div>
+            </div>
+          </div>
+          <div class="content">
+            <div class="Thongtin">Thông tin của QA/PQ</div>
+            <div class="xacnhan">
+              <div class="kq">Kết quả xác nhận mặt cắt</div>
+              <div class="columnright">Độ dày trước</div>
+              <div class="columnright">Độ dày sau</div>
+            </div>
+            <div class="xn">
+              <div class="cleft">Xác nhận QL</div>
+              <div class="cleft">Xác nhận PQ</div>
+              <div class="cleft">Chức Năng</div>
+            </div>
+          </div>
+        </div>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Fgetflux | slice:pageIndex*pageSize:(pageIndex+1)*pageSize;let i = index;">
+          <div class="row">
+            <div class="STTrow">{{i+1}}</div>
+            <div class="contentrow">
+              <div class="Thongtinrow"></div>
+              <div>
+                <div class="columnleftrow" style="text-align:left;">
+                    <span *ngIf="!item.edittable">{{item.Mahang}}</span>
+                       <div *ngIf="item.edittable" class="tableMahang">
+                          <input type="hidden" [(ngModel)]="mahang">
+                          <app-filter-dropdown [dataSet]="GetAllPartNo" [searchText]="item.Mahang" [maxLen]="6" (typeahead)="getMahang($event,item)">
+                            </app-filter-dropdown>
+                       </div>
+                </div>
+                <div class="columnleftrow" style="text-align:left;">
+                  <span *ngIf="!item.edittable">{{item.Malot}}</span>
+                  <div *ngIf="item.edittable" class="tableMahang">
+                      <input type="hidden" [(ngModel)]="malot">
+                     <app-filter-dropdown [dataSet]="GetAllLotNo" [searchText]="item.Malot" [maxLen]="6" (typeahead)="getMalot($event)">
+                       </app-filter-dropdown>
+                  </div>
+                </div>
+                <div class="columnleftrow">
+                  <span *ngIf="!item.edittable">{{item.Doday}}</span>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="doday" *ngIf="item.edittable"/>
+                </div>
+                <div class="columnleftrow">
+                  <span *ngIf="!item.edittable">{{item.Soluong}}</span>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="soluong" *ngIf="item.edittable"/>
+                </div>
+              </div>
+            </div>
+            <div class="contentrow">
+              <div class="Thongtinrow"></div>
+              <div>
+                <div class="columnleftrow">{{item.Dodaytruoc}}</div>
+                <div class="columnleftrow">{{item.Dodaysau}}</div>
+                <div class="columnrightrow">{{item.Xacnhanql}}</div>
+                <div class="columnrightrow">{{item.Xacnhanpq}}</div>
+                <div class="columnrightrow" *ngIf="chucnang">
+                  <a class="btn" (click)="modalopen(item,i)" *ngIf="!item.edittable">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </a>
+                  <span *ngIf="item.edittable">
+                      <a class="btn" (click)="modalclose(item,i)">
+                          <i class="fas fa-save"></i>
+                     </a>
+                  </span>
+                  <a class="btn text-danger" (click)="openDelete(item)">
+                    <i class="far fa-trash-alt"></i>
+                  </a>
+                  <input type="hidden" (click)="modalDelete.show()" id="modalDelete">
+                  <input type="hidden" (click)="modalDelete.hide()" id="modalDeleteHide">
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+</div>
+<div class="fixed-bottom">
+  <div style="float: left;">
+      <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+      <button class="btn btn-secondary" disabled>Tổng: {{countds}}</button>
+  </div>
+ <div style="float: right;">
+    <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+    <button class="btn btn-secondary" disabled>Tổng: {{count}}</button>
+ </div>
+</div>
+

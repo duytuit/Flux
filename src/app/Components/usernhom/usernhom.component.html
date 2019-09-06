@@ -1,0 +1,367 @@
+<div class="rightcontent">
+  <h2>User Nhóm</h2>
+</div>
+<app-modal #modalRoot [modalTitle]="'Thêm mới'" [width]="800" [zIndex]="zIndex">
+  <ng-container class="app-modal-body">
+      <form class="emp-form" [formGroup]="addUserNhom" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input class="form-control form-control-sm" autocomplete="off" formControlName="Manhanvien" placeholder="ID nhân viên">
+            </div>
+            <div class="form-group col-md-6">
+              <input class="form-control form-control-sm" autocomplete="off" formControlName="Username" placeholder="Tên nhân viên" >
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm" autocomplete="off" formControlName="Email" placeholder="tài khoản mail">
+          </div>
+          <div class="form-group">
+              <select class="form-control form-control-sm" (change)="onEventNhomKy($event.target.value)">
+                  <option value="null">--Nhóm ký--</option>
+                  <option *ngFor="let item of getnhomky" value="{{item.Nhomky_id}}+{{item.Tennhom}}">{{item.Tennhom}}</option>
+                </select>
+            </div>
+          <div class="form-group">
+              <select class="form-control form-control-sm" (change)="onEventTrangThai($event.target.value)">
+                <option value="null" selected>--Trạng thái--</option>
+                <option value="true">Kích hoạt</option>
+                <option value="false">Khóa</option>
+              </select>
+            </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <button type="submit" class="btn btn-block btn-info btn-sm">
+                <i class="fa fa-floppy-o"></i> Tạo</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-block btn-secondary btn-sm">
+                <i class="fa fa-repeat"></i> Làm mới</button>
+            </div>
+          </div>
+        </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+      <span [ngStyle]="{'color' : 'red'}">{{thongbao}}</span>
+      <input type="hidden" (click)="modalRoot.hide()" id="modalRootClose">
+      <input type="hidden" (click)="modalRoot.show()" id="modalRootShow">
+  </ng-container>
+</app-modal>
+
+<app-modal #modalAddUser [modalTitle]="'Thêm mới'" [width]="800" [zIndex]="zIndex">
+  <ng-container class="app-modal-body">
+      <form class="emp-form" [formGroup]="addUser" (ngSubmit)="onSubmitAddUser()">
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Manhanvien">
+              </div>
+              <div class="form-group col-md-6">
+                <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Hovaten">
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Chucvu">
+                </div>
+                <div class="form-group col-md-6">
+                  <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Capbac">
+                </div>
+              </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm" autocomplete="off" formControlName="Username" placeholder="Tên đăng nhập">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control form-control-sm" autocomplete="off" formControlName="Password" placeholder="Mật khẩu">
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm" autocomplete="off" formControlName="Sodienthoai" placeholder="Số điện thoại">
+          </div>
+          <div class="form-group">
+            <select class="form-control form-control-sm" (change)="onEventTrangThaiAddUser($event.target.value)">
+              <option value="null" selected>--Trạng thái--</option>
+              <option value="true">Kích hoạt</option>
+              <option value="false">Khóa</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <button type="submit" class="btn btn-block btn-info btn-sm">
+                <i class="fa fa-floppy-o"></i> Tạo</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-block btn-secondary btn-sm">
+                <i class="fa fa-repeat"></i> Làm mới</button>
+            </div>
+          </div>
+        </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+
+      <input type="hidden" (click)="modalAddUser.hide()" id="modalAddUserClose">
+      <input type="hidden" (click)="modalAddUser.show()" id="modalAddUserShow">
+  </ng-container>
+</app-modal>
+<app-modal #modalEditUser [modalTitle]="'Cập nhập'" [width]="800" [zIndex]="zIndex">
+  <ng-container class="app-modal-body">
+      <form class="emp-form" [formGroup]="addUser" (ngSubmit)="onSubmitEditUser()">
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Manhanvien">
+              </div>
+              <div class="form-group col-md-6">
+                <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Hovaten">
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Chucvu">
+                </div>
+                <div class="form-group col-md-6">
+                  <input class="form-control form-control-sm" autocomplete="off" [attr.disabled]="true" formControlName="Capbac">
+                </div>
+              </div>
+        <div class="form-group">
+          <input class="form-control form-control-sm" autocomplete="off" formControlName="Username" placeholder="Tên đăng nhập">
+        </div>
+       
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input class="form-control form-control-sm" autocomplete="off" formControlName="Password" placeholder="Mật khẩu">
+              </div>
+              <div class="form-group col-md-6">
+                  <button type="button" class="btn btn-block btn-secondary">
+                      <i class="fa fa-repeat"></i> Reset Mật Khẩu</button>
+                </div>
+          </div>
+        <div class="form-group">
+          <input class="form-control form-control-sm" autocomplete="off" formControlName="Sodienthoai" placeholder="Số điện thoại">
+        </div>
+        <div class="form-group">
+          <select class="form-control form-control-sm" (change)="onEventTrangThaiEditUser($event.target.value)">
+            <option value="true">Kích hoạt</option>
+            <option value="false">Khóa</option>
+          </select>
+        </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <button type="submit" class="btn btn-block btn-info btn-sm">
+                <i class="fa fa-floppy-o"></i> Tạo</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-block btn-secondary btn-sm">
+                <i class="fa fa-repeat"></i> Làm mới</button>
+            </div>
+          </div>
+        </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+      <input type="hidden" (click)="modalEditUser.hide()" id="modalEditUserClose">
+      <input type="hidden" (click)="modalEditUser.show()" id="modalEditUserShow">
+  </ng-container>
+</app-modal>
+<app-modal #modalDelete [modalTitle]="'Bạn có muốn xóa không !'" [width]="800" [zIndex]="zIndex">
+  <ng-container class="app-t-header">
+  </ng-container>
+  <ng-container class="app-modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-6">Nhân viên:{{idnhanvien}}-{{tennhanvien}}</div>
+      <div class="form-group col-md-6">Tên nhóm:{{tennhom}}</div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" (click)="onDeleteUserNhom(idusernhom)" style="width: 75px;" class="btn btn-info btn-sm">
+      <i class="far fa-save tu"></i>
+      Xóa</button>
+    <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalDelete.hide()">
+      <i class="far fa-times-circle"></i>
+      Thoát</button>
+  </ng-container>
+</app-modal>
+<app-modal #modalDeleteUser [modalTitle]="'Bạn có muốn xóa không !'" [width]="500" [zIndex]="zIndex">
+  <ng-container class="app-t-header">
+  </ng-container>
+  <ng-container class="app-modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-5">Mã nhân viên:{{maNV}}</div>
+      <div class="form-group col-md-7">Tên nhân viên:{{tenNV}}</div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" (click)="onDeleteUser(IDuser)" style="width: 75px;" class="btn btn-info btn-sm">
+      <i class="far fa-save tu"></i>
+      Xóa</button>
+    <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalDeleteUser.hide()">
+      <i class="far fa-times-circle"></i>
+      Thoát</button>
+  </ng-container>
+</app-modal>
+<div class="content-header">
+  <div class="col-md-6">
+    <ul class="ulbutton" (click)="lammoi()">
+      <a class="abutton" title="làm mới" role="button">
+        <i class="fas fa-retweet"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton">
+      <a class="abutton" title="xuất tệp" role="button">
+        <i class="fas fa-file-export"></i>
+      </a>
+    </ul>
+  </div>
+  <div class="col-md-6">
+   
+  </div>
+</div>
+<div class="content-center">
+  <div style="display: inline-table; width:20%;margin-right:2px;">
+      <table class="table table-sm table-fixed table-hover">
+          <thead style="background-color: #dbdbdb80;">
+              <tr class="row" style="  border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+                <th class="col-sm-4">
+                  <label for="manv" class="inp">
+                    <input type="text" id="manv" placeholder="&nbsp;" [(ngModel)]="listFilterNV">
+                    <span class="label">Mã ID</span>
+                    <span class="border"></span>
+                  </label>
+                </th>
+                <th class="col-sm-8" style="bottom: -16px;">Tên NV</th>
+              </tr>
+            </thead>
+          <tbody>
+            <tr *ngFor="let item of FgetthongtinNV | slice:pageIndexds*pageSizeds:(pageIndexds+1)*pageSizeds;let i=index" [ngStyle]="{'background-color' : getColor(i)}"  class="row">
+                <td class="col-sm-4" style="font-weight:bold;padding: 7px;">{{item.manhansu}}</td>
+                <td class="col-sm-8" style="text-align: left;padding: 7px;" (click)="modalopenCreateUser(item,i)">{{item.hodem}} {{item.ten}}</td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  <div style="display: inline-table;width:79.8%;float:right;">
+    <table class="table table-sm table-fixed table-hover" style="min-height:350px">
+      <thead style="background-color: #dbdbdb80;">
+        <tr class="row" style=" border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+          <th class="col-sm-1" style="bottom: -16px;">TT</th>
+          <th class="col-sm-1">
+            <label for="maUser" class="inp">
+              <input type="text" id="maUser" placeholder="&nbsp;" [(ngModel)]="listFilterUser">
+              <span class="label">ID nhân viên</span>
+              <span class="border"></span>
+            </label>
+          </th>
+          <th class="col-sm-3" style="bottom: -16px;">Tên nhân viên</th>
+          <th class="col-sm-2" style="bottom: -16px;">Số điện thoại</th>
+          <th class="col-sm-3" style="bottom: -16px;">Ngày tạo user</th>
+          <th class="col-sm-1" style="bottom: -16px;">Trạng thái</th>
+          <th class="col-sm-1" style="bottom: -16px;">Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of FgetUser | slice:pageIndexdUser*pageSizedUser:(pageIndexdUser+1)*pageSizedUser;let i=index" [ngStyle]="{'background-color' : getColorUser(i)}"  class="row">
+              <td class="col-sm-1" style="font-weight:bold;">{{i+1}}</td>
+              <td class="col-sm-1" (click)="modalopenCreateUserNhom(item,i)">
+                  <span>{{item.Manhanvien}}</span>
+              </td>
+              <td class="col-sm-3" (click)="modalopenCreateUserNhom(item,i)">
+                  <span>{{item.Hovaten}}</span>
+              </td>
+              <td class="col-sm-2" (click)="modalopenCreateUserNhom(item,i)">
+                <span>{{item.Sodienthoai}}</span>
+            </td>
+              <td class="col-sm-3" (click)="modalopenCreateUserNhom(item,i)">
+                  <span>{{item.Ngayvao}}</span>
+              </td>
+              <td class="col-sm-1">
+                <span>{{item.Tinhtrang?'Kích hoạt':'Khóa'}}</span> 
+              </td>
+              <td class="col-sm-1">
+                <a class="btn" (click)="modalopenEditUser(item)">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <a class="btn text-danger" style="margin-left: 15px;" (click)="openDeleteUser(item)">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+                <input type="hidden" (click)="modalDeleteUser.show()" id="modalDeleteUserShow">
+                <input type="hidden" (click)="modalDeleteUser.hide()" id="modalDeleteUserHide">
+              </td>
+            </tr>
+      </tbody>
+    </table>
+    <div style="float: right;">
+      <app-pagding [itemCount]="countUser" [(pageIndex)]="pageIndexdUser" [pageSize]="pageSizedUser"></app-pagding>
+      <button class="btn btn-secondary" style="height: 38px" disabled>Tổng: {{countUser}}</button>
+   </div>
+    <table class="table table-sm table-fixed table-hover">
+      <thead style="background-color: #dbdbdb80;">
+        <tr class="row" style=" border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+          <th class="col-sm-1" style="bottom: -16px;">TT</th>
+          <th class="col-sm-1">
+            <label for="maUnhom" class="inp">
+              <input type="text" id="maUnhom" placeholder="&nbsp;" [(ngModel)]="listFilterUserNhom">
+              <span class="label">ID nhân viên</span>
+              <span class="border"></span>
+            </label>
+          </th>
+          <th class="col-sm-3"style="bottom: -16px;">Tên nhân viên</th>
+          <th class="col-sm-2" style="bottom: -16px;">Mail</th>
+          <th class="col-sm-3" style="bottom: -16px;">Tên Nhóm</th>
+          <th class="col-sm-1" style="bottom: -16px;">Trạng thái</th>
+          <th class="col-sm-1" style="bottom: -16px;">Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of FgetUserNhom | slice:pageIndex*pageSize:(pageIndex+1)*pageSize;let i=index" class="row">
+              <td class="col-sm-1" style="font-weight:bold;">{{i+1}}</td>
+              <td class="col-sm-1">
+                  <span *ngIf="!item.edittable">{{item.Manhanvien}}</span>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="idnhanvien" *ngIf="item.edittable"/>
+              </td>
+              <td class="col-sm-3">
+                  <span *ngIf="!item.edittable">{{item.Username}}</span>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="tennhanvien" *ngIf="item.edittable"/>
+              </td>
+              <td class="col-sm-2">
+                <span *ngIf="!item.edittable">{{item.Email}}</span>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="mail" *ngIf="item.edittable"/>
+            </td>
+              <td class="col-sm-3">
+                  <span *ngIf="!item.edittable">{{item.Tennhomky}}</span>
+                  <select class="form-control form-control-sm" *ngIf="item.edittable" [(ngModel)]="tesst" (change)="onEventNhomKyEdit($event.target.value)">
+                    <option *ngFor="let item of getnhomky" value="{{item.Nhomky_id}}+{{item.Tennhom}}">{{item.Tennhom}}</option>
+                  </select>
+              </td>
+              <td class="col-sm-1">
+                <span *ngIf="!item.edittable">{{item.Trangthai?'Kích hoạt':'Khóa'}}</span> 
+                <select class="form-control form-control-sm" *ngIf="item.edittable" [(ngModel)]="trangthai" (change)="onEvent($event.target.value)">
+                   <option hidden>--Trạng thái--</option>
+                   <option value="true">Kích hoạt</option>
+                   <option value="false">Khóa</option>
+                 </select>
+              </td>
+              <td class="col-sm-1">
+                <a class="btn" (click)="modalopen(item)" *ngIf="!item.edittable">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <span *ngIf="item.edittable">
+                    <a class="btn" (click)="modalclose(item)">
+                        <i class="fas fa-save"></i>
+                   </a>
+                </span>
+                <a class="btn text-danger" style="margin-left: 15px;" (click)="openDelete(item)">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+                <input type="hidden" (click)="modalDelete.show()" id="modalDelete">
+                <input type="hidden" (click)="modalDelete.hide()" id="modalDeleteHide">
+              </td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="fixed-bottom">
+  <div style="float: left;">
+      <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+      <button class="btn btn-secondary" style="height: 38px" disabled>Tổng: {{countds}}</button>
+  </div>
+ <div style="float: right;">
+    <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+    <button class="btn btn-secondary" style="height: 38px" disabled>Tổng: {{count}}</button>
+ </div>
+</div>

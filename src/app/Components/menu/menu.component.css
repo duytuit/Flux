@@ -1,0 +1,76 @@
+.content-center{
+    width: 100%;
+    display: inline-block; 
+    height: 83vh;
+  }
+  .content-header{
+    background-color: #dbdbdb80;
+    border: 0.09rem solid rgb(221, 213, 213);
+    height: 48px;
+    margin-bottom: 5px;
+   }
+   .abutton:hover{
+    background-color:rgb(196, 192, 192);
+  }
+  .abutton{
+    color: #666;border:0.09rem solid rgb(221, 213, 213);border-radius: 3px;padding: 4px 12px 5px;
+  }
+  .ulbutton{
+    padding: 10px;
+    margin:0;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .rightcontent{
+    text-align:center;
+    background-color: #364f69;
+    color: #f7f7f8;
+    font-family:Arial, Helvetica, sans-serif;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    border:2px solid rgb(196, 192, 192);
+    margin-bottom: 5px;
+   }
+   .fa-plus,.fa-retweet,.fa-file-export,.fa-bullhorn,.fa-pencil-square-o,.fa-save,.fa-file-signature,.fa-flag,.fa-check-square,.fa-square{
+    color: #364f69;
+  }
+  .row{
+    margin: 0;
+    text-align: center;
+    }
+   input[type="file"]{
+      height: 37px;
+      margin-top: 45px;
+    }
+    .btn{
+      padding: 1px 1px;
+  }
+  .table thead th {
+      border:0;
+  }
+    #filterText {
+    position:absolute;
+    width: 96%;
+ }
+ .search-drop-down {
+  position: absolute;
+  width: 96%;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+  background-color: #F6F6F6;
+  font-family: sans-serif;
+  opacity: 0.98;
+}
+.search-results {
+  padding: 2px;
+}
+.search-results:hover {
+  background: #1765f7da;
+  cursor: pointer;
+}
+
+  

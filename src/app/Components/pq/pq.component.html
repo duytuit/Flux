@@ -1,0 +1,193 @@
+<div class="rightcontent">
+    <h2>Danh sách các đối tượng cần tái xử lý Flux - PQ</h2>
+  </div>
+  <app-modal #modalDelete [modalTitle]="'Bạn có muốn xóa không !'" [width]="700" [zIndex]="zIndex">
+    <ng-container class="app-t-header">
+    </ng-container>
+    <ng-container class="app-modal-body">
+      <div class="form-row" *ngIf="opendelete">
+        <div class="form-group col-md-4">Mã hàng:{{test.Mahang}}</div>
+        <div class="form-group col-md-4">Mã lot:{{test.Malot}}</div>
+        <div class="form-group col-md-3">Độ dày:{{test.Doday}}</div>
+        <div class="form-group col-md-3">Độ dày trước:{{test.Dodaytruoc}}</div>
+        <div class="form-group col-md-3">Độ dày sau:{{test.Dodaysau}}</div>
+        <div class="form-group col-md-3">Xác nhận:{{test.Xacnhanql}}</div>
+      </div>
+    </ng-container>
+    <ng-container class="app-modal-footer">
+      <button type="button" (click)="onDeleteFlux(test)" style="width: 75px;" class="btn btn-info btn-sm">
+        <i class="far fa-save tu"></i>
+        Xóa</button>
+      <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalDelete.hide()">
+        <i class="far fa-times-circle"></i>
+        Thoát</button>
+    </ng-container>
+  </app-modal>
+  <div class="content-header">
+    <div class="col-md-6">
+      <ul class="ulbutton" (click)="lammoi()">
+        <a class="abutton" title="làm mới" role="button">
+          <i class="fas fa-retweet"></i>
+        </a>
+      </ul>
+      <ul class="ulbutton">
+        <a *ngIf="!daky" class="abutton" (click)="OpenUpdateQuytrinh()" title="chưa ký" role="button">
+            <i class="fas fa-flag" style="color:#adabab8a;"></i>
+        </a>
+        <a *ngIf="daky" class="abutton" title="đã ký" role="button">
+            <i class="fas fa-flag"></i>
+        </a>
+      </ul>
+    </div>
+    <div class="col-md-6">
+     
+    </div>
+  </div>
+  <app-modal #modalnoidung [modalTitle]="'Nội dung !'" [width]="500" [zIndex]="zIndex">
+    <ng-container class="app-modal-body">
+      <div class="form-row">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="ghichunoidung"/>
+      </div>
+    </ng-container>
+    <ng-container class="app-modal-footer">
+      <button type="button" (click)="updatequytrinh(quytrinh)" style="width: 75px;" class="btn btn-info btn-sm">
+        <i class="far fa-save tu"></i>
+        Lưu</button>
+      <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalnoidung.hide()">
+        <i class="far fa-times-circle"></i>
+        Thoát</button>
+    </ng-container>
+  </app-modal>
+  
+  <input type="hidden" (click)="modalnoidung.show()" id="modalNoidung">
+  <input type="hidden" (click)="modalnoidung.hide()" id="modalNoidungHide">
+  <div class="content-center">
+    <div class="content-left" style="float: left;width: 10%;border:1px solid #adabab8a;height:88vh;">
+      <table class="table table-sm table-hover">
+        <thead>
+              <div class="content-left-header">
+                  <label for="danhsachflux" class="inp">
+                    <input type="text" id="danhsachflux" placeholder="&nbsp;" [(ngModel)]="listFilter">
+                    <span class="label">Mã Yêu Cầu</span>
+                    <span class="border"></span>
+                  </label>
+                </div>
+                <div style="width:30%;height: 80px;background-color:#dbdbdb80; border-bottom:1px solid #adabab8a;padding:50px 0 0;float: right;">
+                  <select style="width:100%;background-color:#dbdbdb80;" [(ngModel)]="listFilterSelect" (change)="onSelect($event.target.value)">
+                    <option value="">All</option>
+                    <option value="true">Đã ký</option>
+                    <option value="false">Chưa ký</option>
+                  </select>
+                </div>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Fgetquytrinh | slice:pageIndexds*pageSizeds:(pageIndexds+1)*pageSizeds ;let i = index" [ngStyle]="{'color' : getColor(i)}">
+              <div class="row" style="height: 39px;padding: 10px;" (click)="onGroup(item.Groupid)">
+                {{item.Groupid}}
+                <i *ngIf="item.Daky" class="fas fa-flag" style="margin-left: 5px;"></i>
+              </div>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    <table class="table table-sm table-hover table-bordered test" style="float: right;width:89.8%;">
+      <thead>
+        <div class="row" style="background-color:  #dbdbdb80;">
+          <div class="STT">STT</div>
+          <div class="content">
+            <div class="Thongtin"> Thông tin của bộ phận chế tạo </div>
+            <div>
+              <div class="columnleft">
+                <label for="mahang" class="inp">
+                  <input type="text" id="mahang" placeholder="&nbsp;" [(ngModel)]="listFilterMahang">
+                  <span class="label">Mã hàng</span>
+                  <span class="border"></span>
+                </label>
+              </div>
+              <div class="columnleft">
+                <label for="malot" class="inp">
+                  <input type="text" id="malot" placeholder="&nbsp;" [(ngModel)]="listFilterMalot">
+                  <span class="label">Mã Lot</span>
+                  <span class="border"></span>
+                </label>
+              </div>
+              <div class="columnleft">Độ dày lỗ mạ</div>
+              <div class="columnleft">Số lượng</div>
+            </div>
+          </div>
+          <div class="content">
+            <div class="Thongtin">Thông tin của QA/PQ</div>
+            <div class="xacnhan">
+              <div class="kq">Kết quả xác nhận mặt cắt</div>
+              <div class="columnright">Độ dày trước</div>
+              <div class="columnright">Độ dày sau</div>
+            </div>
+            <div class="xn">
+              <div class="cleft">Xác nhận QL</div>
+              <div class="cleft">Xác nhận PQ</div>
+              <div class="cleft">Chức Năng</div>
+            </div>
+          </div>
+        </div>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Fgetflux | slice:pageIndex*pageSize:(pageIndex+1)*pageSize ;let i = index">
+          <div class="row">
+            <div class="STTrow">{{i+1}}</div>
+            <div class="contentrow">
+              <div class="Thongtinrow"></div>
+              <div>
+                <div class="columnleftrow" style="text-align:left;">{{item.Mahang}}</div>
+                <div class="columnleftrow" style="text-align:left;">{{item.Malot}}</div>
+                <div class="columnleftrow">{{item.Doday}}</div>
+                <div class="columnleftrow">{{item.Soluong}}</div>
+              </div>
+            </div>
+            <div class="contentrow">
+              <div class="Thongtinrow"></div>
+              <div>
+                <div class="columnleftrow">{{item.Dodaytruoc}} </div>
+                <div class="columnleftrow">{{item.Dodaysau}} </div>
+                <div class="columnrightrow">{{item.Xacnhanql}}</div>
+                <div class="columnrightrow">
+                    <span *ngIf="!item.edittable">{{item.Xacnhanpq | slice:0:10}}</span> 
+                     <select class="form-control form-control-sm" *ngIf="item.edittable" [(ngModel)]="xacnhanpq" (change)="onEvent($event.target.value)">
+                        <option hidden>-chọn-</option>
+                        <option value="OK">OK</option>
+                        <option value="NG(Báo phế)">NG(Báo phế)</option>
+                        <option value="NG(cân+sorting)">NG(cân+sorting)</option>
+                        <option value="NG(bổ sung mặt cắt)">NG(bổ sung mặt cắt)</option>
+                      </select>
+                </div>
+                <div class="columnrightrow" *ngIf="chucnang">
+                  <a class="btn" (click)="modalopen(item,i)" *ngIf="!item.edittable">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </a>
+                  <span *ngIf="item.edittable">
+                      <a class="btn" (click)="modalclose(item,i)">
+                          <i class="fas fa-save"></i>
+                     </a>
+                  </span>
+                  <a class="btn text-danger" (click)="openDelete(item)">
+                    <i class="far fa-trash-alt"></i>
+                  </a>
+                  <input type="hidden" (click)="modalDelete.show()" id="modalDelete">
+                  <input type="hidden" (click)="modalDelete.hide()" id="modalDeleteHide">
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fixed-bottom">
+    <div style="float: left;">
+        <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+        <button class="btn btn-secondary" disabled>Tổng: {{countds}}</button>
+    </div>
+   <div style="float: right;">
+      <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+      <button class="btn btn-secondary" disabled>Tổng: {{count}}</button>
+   </div>
+  </div>

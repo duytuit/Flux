@@ -1,0 +1,144 @@
+<div class="rightcontent">
+  <h2>Danh Mục</h2>
+</div>
+<app-modal #modalRoot [modalTitle]="'Thêm mới'" [width]="800" [zIndex]="zIndex" [maximizable]="true">
+  <!-- <ng-container class="app-t-header">
+   
+  </ng-container> -->
+  <ng-container class="app-modal-body">
+    <form class="emp-form" [formGroup]="adddanhmuc" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input class="form-control form-control-sm" autocomplete="off" formControlName="Madanhmuc" placeholder="Mã danh mục">
+        </div>
+        <div class="form-group col-md-6">
+          <input class="form-control form-control-sm" autocomplete="off" formControlName="Tendanhmuc" placeholder="Tên danh mục" >
+        </div>
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" formControlName="Thutu" placeholder="Thứ tự">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" autocomplete="off" formControlName="Tinhtrang" placeholder="Trạng thái">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <button type="submit" class="btn btn-block btn-info btn-sm">
+            <i class="fa fa-floppy-o"></i> Tạo</button>
+        </div>
+        <div class="form-group col-md-4">
+          <button type="button" class="btn btn-block btn-secondary btn-sm">
+            <i class="fa fa-repeat"></i> Làm mới</button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <input type="hidden" (click)="modalRoot.hide()" id="modalRootClose">
+  </ng-container>
+</app-modal>
+
+<app-modal #modalDelete [modalTitle]="'Bạn có muốn xóa không !'" [width]="500" [zIndex]="zIndex">
+  <ng-container class="app-t-header">
+  </ng-container>
+  <ng-container class="app-modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-6">Mã:{{madanhmuc}}</div>
+      <div class="form-group col-md-6">Tên:{{tendanhmuc}}</div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" (click)="onDeleteDanhmuc(iddanhmuc)" style="width: 75px;" class="btn btn-info btn-sm">
+      <i class="far fa-save tu"></i>
+      Xóa</button>
+    <button type="button" class="btn btn-info btn-sm" style="float: right;" (click)="modalDelete.hide()">
+      <i class="far fa-times-circle"></i>
+      Thoát</button>
+  </ng-container>
+</app-modal>
+
+
+
+
+
+<div class="content-header">
+  <div class="col-md-6">
+    <ul class="ulbutton" (click)="modalRoot.show()">
+      <a class="abutton" title="Thêm" role="button">
+        <i class="fas fa-plus"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton" (click)="lammoi()">
+      <a class="abutton" title="làm mới" role="button">
+        <i class="fas fa-retweet"></i>
+      </a>
+    </ul>
+    <ul class="ulbutton">
+      <a class="abutton" title="xuất tệp" role="button">
+        <i class="fas fa-file-export"></i>
+      </a>
+    </ul>
+  </div>
+  <div class="col-md-6">
+   
+  </div>
+</div>
+<div class="content-center">
+    <table class="table table-sm table-fixed table-hover">
+      <thead style="background-color: #dbdbdb80;">
+        <tr class="row"  style=" border: 0.09rem solid rgb(221, 213, 213);color:  #364f69">
+          <th class="col-sm-1">Thứ tự</th>
+          <th class="col-sm-1">Mã danh mục</th>
+          <th class="col-sm-8">Tên danh mục</th>
+          <th class="col-sm-1">Trạng thái</th>
+          <th class="col-sm-1">Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of getdanhmuc" class="row">
+              <td class="col-sm-1" style="font-weight:bold;">{{item.Thutu}}</td>
+              <td class="col-sm-1">
+                  <span *ngIf="!item.edittable">{{item.Madanhmuc}}</span>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="madanhmuc" *ngIf="item.edittable"/>
+              </td>
+              <td class="col-sm-8">
+                  <span *ngIf="!item.edittable">{{item.Tendanhmuc}}</span>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="tendanhmuc" *ngIf="item.edittable"/>
+              </td>
+              <td class="col-sm-1">
+                <span *ngIf="!item.edittable">{{item.Tinhtrang?'Kích hoạt':'Khóa'}}</span> 
+                <select class="form-control form-control-sm" *ngIf="item.edittable" [(ngModel)]="trangthai" (change)="onEvent($event.target.value)">
+                   <option hidden>--Trạng thái--</option>
+                   <option value="true">Kích hoạt</option>
+                   <option value="false">Khóa</option>
+                 </select>
+              </td>
+              <td class="col-sm-1">
+                <a class="btn" (click)="modalopen(item)" *ngIf="!item.edittable">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <span *ngIf="item.edittable">
+                    <a class="btn" (click)="modalclose(item)">
+                        <i class="fas fa-save"></i>
+                   </a>
+                </span>
+                <a class="btn text-danger" style="margin-left: 15px;" (click)="openDelete(item)">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+                <input type="hidden" (click)="modalDelete.show()" id="modalDelete">
+                <input type="hidden" (click)="modalDelete.hide()" id="modalDeleteHide">
+              </td>
+            </tr>
+      </tbody>
+    </table>
+</div>
+<div class="fixed-bottom">
+  <!-- <div style="float: left;">
+      <app-custom-pagding [itemCount]="countds" [(pageIndex)]="pageIndexds" [pageSize]="pageSizeds"></app-custom-pagding>
+      <button class="btn btn-secondary" disabled>Tổng: {{countds}}</button>
+  </div>
+ <div style="float: right;">
+    <app-pagding [itemCount]="count" [(pageIndex)]="pageIndex" [pageSize]="pageSize"></app-pagding>
+    <button class="btn btn-secondary" disabled>Tổng: {{count}}</button>
+ </div> -->
+</div>
